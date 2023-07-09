@@ -302,7 +302,7 @@ export default function Home() {
                         </motion.button>
                     </div>
                     <div className={'sm:col-end-13 row-start-1 flex justify-center sm:row-auto h-96 sm:h-auto sm:col-span-5 relative'}>
-                        <motion.img className={'max-w-7xl absolute z-10'} src={'/images/first_track.png'}
+                        <motion.img className={'max-w-xs sm:max-w-7xl absolute z-10'} src={'/images/first_track.png'}
                         initial={{y: -30, opacity: 0}}
                               whileInView={{y: 0, opacity: 1}}
                               viewport={{once: true}}
@@ -321,7 +321,7 @@ export default function Home() {
                                 whileInView={{x: 0, opacity: 1}}
                                 viewport={{once: true}}
                                 transition={{ease: 'easeInOut', duration: 0.7}}>
-                        <img className={'max-w-7xl absolute z-10'} src={'/images/second_track.png'}/>
+                        <img className={'max-w-xs sm:max-w-7xl absolute z-10'} src={'/images/second_track.png'}/>
                         <img className={'w-96 animate-spin-slow absolute sm:top-20 z-0 sm:right-0 aspect-square'}
                              src={'/images/coroleva_team.svg'}/>
                     </motion.div>
