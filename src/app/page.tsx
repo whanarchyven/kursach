@@ -13,13 +13,14 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {useRouter} from "next/navigation";
+import {Link} from 'react-scroll'
 
 export default function Home() {
 
     const links = [
         {
             name: 'Главная',
-            link: '#main'
+            link: 'main'
         },
         {
             name: 'Расписание',
@@ -27,15 +28,15 @@ export default function Home() {
         },
         {
             name: 'Новости',
-            link: '#news'
+            link: 'news'
         },
         {
             name: 'О нас',
-            link: '#about'
+            link: 'about'
         },
         {
             name: 'Сборы',
-            link: '#meetings'
+            link: 'meetings'
         },
     ]
 
@@ -56,7 +57,7 @@ export default function Home() {
     return (
         <main className={'overflow-y-scroll scroll-smooth'}>
             <link rel="preconnect" href="https://fonts.googleapis.com"/>
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'use-credentials'}/>
             <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap" rel="stylesheet"/>
 
             {/*ПЕРВЫЙ БЛОК*/}
@@ -123,18 +124,26 @@ export default function Home() {
                     <div className={'col-start-11 opacity-80 col-span-2 gap-3 hidden sm:flex flex-col'}>
                         {links.map((link,counter) => {
                             return (
-                                <motion.a className={classList('cursor-pointer transition-all duration-300 text-right font-raleway', link.name == activeLink.name ? 'text-gold font-medium text-2xl' : 'text-white text-xl font-normal')}
+                                <motion.div key={link.link} className={'flex flex-col justify-end'}
                                           initial={{x: 20, opacity: 0}}
                                           whileInView={{x: 0, opacity: 1}}
                                           viewport={{once: true}}
                                           transition={{ease: 'easeInOut', duration: 0.7,delay:0.1*counter+1}}
-                                   onClick={() => {
-                                       setActiveLink(link)
-                                       setTimeout(()=>{
-                                           window.location.href=link.link
-                                       },300)
-
-                                   }}>{link.name}</motion.a>
+                                   >
+                                    <Link className={classList('cursor-pointer transition-all duration-300 text-right font-raleway', link.name == activeLink.name ? 'text-gold font-medium text-2xl' : 'text-white text-xl font-normal')}
+                                        activeClass=""
+                                        to={link.link}
+                                        spy={true}
+                                        smooth={true}
+                                        offset={0}
+                                        duration={500}
+                                          onClick={() => {
+                                              setActiveLink(link)
+                                          }}
+                                    delay={300}>
+                                        {link.name}
+                                    </Link>
+                                </motion.div>
                             )
                         })}
                     </div>
@@ -452,7 +461,7 @@ export default function Home() {
                             <iframe
                                 src="https://yandex.ru/map-widget/v1/?from=mapframe&ll=37.679744%2C55.730117&mode=search&oid=180706369619&ol=biz&z=16"
                                 width="100%" style={{position: 'relative'}} height="100%" frameBorder="1"
-                                allowFullScreen="true"
+                                allowFullScreen={true}
                             ></iframe>
                         </div>
                     </motion.div>

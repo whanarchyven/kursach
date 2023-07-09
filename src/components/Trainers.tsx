@@ -80,7 +80,7 @@ const Trainers = () => {
                 <div className={'col-span-3 flex flex-col items-end'}>
                     {trainers.map((trainer) => {
                         return (
-                            <p className={classList('font-raleway cursor-pointer transition-all duration-300 font-medium',currentTrainer.description==trainer.description?'text-gold text-2xl':'text-black text-xl')} onClick={()=>{setCurrentTrainer(trainer)}}>{trainer.name} {trainer.surname}</p>
+                            <p key={trainer.name} className={classList('font-raleway cursor-pointer transition-all duration-300 font-medium',currentTrainer.description==trainer.description?'text-gold text-2xl':'text-black text-xl')} onClick={()=>{setCurrentTrainer(trainer)}}>{trainer.name} {trainer.surname}</p>
                         )
                     })}
                 </div>
@@ -98,7 +98,7 @@ const Trainers = () => {
                 >
                     {trainers.map((trainer,counter)=>{
                         return(
-                            <SwiperSlide className={'flex pb-20 h-fit flex-col'}>
+                            <SwiperSlide key={trainer.name} className={'flex pb-20 h-fit flex-col'}>
                                 <p className={'font-medium font-raleway text-3xl'}>{trainer.name} {trainer.surname} {trainer.nativity}</p>
                                 <img src={trainer.photo}/>
                                 <p className={'font-raleway'}>{trainer.description}</p>
