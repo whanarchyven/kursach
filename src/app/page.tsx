@@ -43,6 +43,7 @@ export default function Home() {
     const router=useRouter()
 
     const [activeLink, setActiveLink] = useState(links[0])
+    const [showBurgerMenu,setShowBurgerMenu]=useState(false)
 
     const swapAnchor=()=> {
         if (window.pageYOffset < window.innerHeight) {
@@ -55,7 +56,7 @@ export default function Home() {
     },[])
 
     return (
-        <main className={'overflow-y-scroll scroll-smooth'}>
+        <main className={'overflow-hidden'}>
             <link rel="preconnect" href="https://fonts.googleapis.com"/>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'use-credentials'}/>
             <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap" rel="stylesheet"/>
@@ -96,9 +97,46 @@ export default function Home() {
                         <img src={'/images/logo.png'}/>
                     </div>
                     <p className={'font-raleway sm:block hidden text-white text-right text-2xl'}>+7(906)-720-32-32</p>
-                    <div className={'p-2 w-16 aspect-square sm:hidden flex items-center justify-center rounded-full'}>
+                    <div className={'p-2 w-10 bg-gold aspect-square sm:hidden flex fixed z-50 right-[20px] items-center justify-center rounded-full'}
+                    onClick={()=>{
+                        setShowBurgerMenu(true)
+                    }}>
                         <img src={'/images/burger.svg'}/>
                     </div>
+                    {showBurgerMenu?
+                        <div className={'fixed flex items-center flex-col justify-center top-0 left-0 z-50 h-screen w-full bg-black'}>
+                            <img className={'absolute right-[20px] top-10'} src={'/images/close.svg'} onClick={()=>{
+                                setShowBurgerMenu(false)
+                            }}/>
+                            {links.map((link,counter) => {
+                                return (
+                                    <motion.div key={link.link} className={'flex flex-col justify-end'}
+                                                initial={{x: 20, opacity: 0}}
+                                                whileInView={{x: 0, opacity: 1}}
+                                                viewport={{once: true}}
+                                                transition={{ease: 'easeInOut', duration: 0.7,delay:0.1*counter+1}}
+                                    >
+                                        <Link className={classList('cursor-pointer transition-all duration-300 text-right font-raleway', link.name == activeLink.name ? 'text-gold font-medium text-2xl' : 'text-white text-xl font-normal')}
+                                              activeClass=""
+                                              to={link.link}
+                                              spy={true}
+                                              smooth={true}
+                                              offset={0}
+                                              duration={500}
+                                              onClick={() => {
+                                                  setActiveLink(link)
+                                                  setTimeout(()=>{
+                                                      setShowBurgerMenu(!showBurgerMenu)
+                                                  },300)
+                                              }}
+                                              delay={300}>
+                                            {link.name}
+                                        </Link>
+                                    </motion.div>
+                                )
+                            })}
+
+                        </div>:null}
                 </motion.div>
                 <div className={'grid grid-cols-1 sm:grid-cols-12 items-center'}>
                     <div className={'sm:col-span-6 gap-8 flex flex-col'}>
@@ -264,7 +302,7 @@ export default function Home() {
                         </motion.button>
                     </div>
                     <div className={'sm:col-end-13 row-start-1 flex justify-center sm:row-auto h-96 sm:h-auto sm:col-span-5 relative'}>
-                        <motion.img className={'w-full absolute z-10'} src={'/images/first_track.png'}
+                        <motion.img className={'max-w-7xl absolute z-10'} src={'/images/first_track.png'}
                         initial={{y: -30, opacity: 0}}
                               whileInView={{y: 0, opacity: 1}}
                               viewport={{once: true}}
@@ -283,7 +321,7 @@ export default function Home() {
                                 whileInView={{x: 0, opacity: 1}}
                                 viewport={{once: true}}
                                 transition={{ease: 'easeInOut', duration: 0.7}}>
-                        <img className={'w-full absolute z-10'} src={'/images/second_track.png'}/>
+                        <img className={'max-w-7xl absolute z-10'} src={'/images/second_track.png'}/>
                         <img className={'w-96 animate-spin-slow absolute sm:top-20 z-0 sm:right-0 aspect-square'}
                              src={'/images/coroleva_team.svg'}/>
                     </motion.div>
