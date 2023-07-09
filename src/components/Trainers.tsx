@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 import {classList} from "@/helpers/classList";
+import {Swiper, SwiperSlide} from "swiper/react";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 
 interface trainersInterface {
     trainers: Array<{
@@ -52,23 +56,49 @@ const Trainers = () => {
     ];
     const [currentTrainer, setCurrentTrainer] = useState(trainers[0])
 
+
+
     return (
-        <div className={'w-full grid grid-cols-12 items-center'}>
-            <div className={'col-span-3 gap-7 flex flex-col items-start'}>
-                <p className={'font-medium font-raleway text-3xl'}>{currentTrainer.name} {currentTrainer.surname} {currentTrainer.nativity}</p>
-                <p className={'font-raleway'}>{currentTrainer.description}</p>
+        <>
+            <div className={'w-full sm:grid  hidden grid grid-cols-12 items-center'}>
+                <div className={'col-span-3 gap-7 flex flex-col items-start'}>
+                    <p className={'font-medium font-raleway text-3xl'}>{currentTrainer.name} {currentTrainer.surname} {currentTrainer.nativity}</p>
+                    <p className={'font-raleway'}>{currentTrainer.description}</p>
+                </div>
+                <div className={'col-span-6 flex items-center justify-center'}>
+                    <img src={currentTrainer.photo}/>
+                </div>
+                <div className={'col-span-3 flex flex-col items-end'}>
+                    {trainers.map((trainer) => {
+                        return (
+                            <p className={classList('font-raleway cursor-pointer transition-all duration-300 font-medium',currentTrainer.description==trainer.description?'text-gold text-2xl':'text-black text-xl')} onClick={()=>{setCurrentTrainer(trainer)}}>{trainer.name} {trainer.surname}</p>
+                        )
+                    })}
+                </div>
             </div>
-            <div className={'col-span-6 flex items-center justify-center'}>
-                <img src={currentTrainer.photo}/>
+            <div className={'w-full sm:hidden block'}>
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={30}
+                    centeredSlides={true}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    modules={[Pagination]}
+                    className="mySwiper"
+                >
+                    {trainers.map((trainer,counter)=>{
+                        return(
+                            <SwiperSlide className={'flex pb-20 h-fit flex-col'}>
+                                <p className={'font-medium font-raleway text-3xl'}>{trainer.name} {trainer.surname} {trainer.nativity}</p>
+                                <img src={trainer.photo}/>
+                                <p className={'font-raleway'}>{trainer.description}</p>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
             </div>
-            <div className={'col-span-3 flex flex-col items-end'}>
-                {trainers.map((trainer) => {
-                    return (
-                        <p className={classList('font-raleway cursor-pointer transition-all duration-300 font-medium',currentTrainer.description==trainer.description?'text-gold text-2xl':'text-black text-xl')} onClick={()=>{setCurrentTrainer(trainer)}}>{trainer.name} {trainer.surname}</p>
-                    )
-                })}
-            </div>
-        </div>
+        </>
     );
 };
 
