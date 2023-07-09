@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {classList} from "@/helpers/classList";
+import {motion} from "framer-motion";
 
 const News = () => {
     const types = ['Новости', 'Мероприятия', 'Объявления']
@@ -96,7 +97,11 @@ const News = () => {
     const [isPopOpen,setIsPopOpen]=useState(false)
     return (
         <div className={''}>
-            <div className={'hidden sm:flex items-center justify-end'}>
+            <motion.div className={'hidden sm:flex items-center justify-end'}
+                        initial={{y: -30, opacity: 0}}
+                        whileInView={{y: 0, opacity: 1}}
+                        viewport={{once: true}}
+                        transition={{ease: 'easeInOut', duration: 0.7}}>
                 {types.map((category)=>{
                     return(
                         <div key={category} className={classList('p-4 flex font-raleway items-center duration-300 transition-all justify-center border-2 border-gold',category==currentType?'bg-gold text-white text-center':'text-gold cursor-pointer')} onClick={()=>{setCurrentType(category)}}>
@@ -104,12 +109,16 @@ const News = () => {
                         </div>
                     )
                 })}
-            </div>
+            </motion.div>
             <div className={'grid mt-12 grid-cols-1 sm:grid-cols-2 gap-20'}>
                 {news.map((post,counter)=>{
                     if(post.type==currentType){
                         return (
-                            <div key={counter} className={'flex gap-3 flex-col'}>
+                            <motion.div key={counter} className={'flex gap-3 flex-col'}
+                                        initial={{y: -30, opacity: 0}}
+                                        whileInView={{y: 0, opacity: 1}}
+                                        viewport={{once: true}}
+                                        transition={{ease: 'easeInOut', duration: 0.7}}>
                                 <img className={'w-full aspect-video object-cover'} src={post.image}/>
                                 <p className={'text-gold font-raleway text-2xl sm:text-3xl'}>{post.title}</p>
                                 <p className={'font-raleway text-justify text-sm sm:text-lg w-full'}>{post.description.split(' ').slice(0, 30).join(' ')} ...</p>
@@ -119,7 +128,7 @@ const News = () => {
                                     }}>Читать полностью</p>
                                     <p className={'font-raleway'}>{post.date}</p>
                                 </div>
-                            </div>
+                            </motion.div>
                         )
                     }
                 })}

@@ -4,6 +4,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import {motion} from "framer-motion";
 
 interface trainersInterface {
     trainers: Array<{
@@ -61,13 +62,21 @@ const Trainers = () => {
     return (
         <>
             <div className={'w-full sm:grid  hidden grid grid-cols-12 items-center'}>
-                <div className={'col-span-3 gap-7 flex flex-col items-start'}>
+                <motion.div className={'col-span-3 gap-7 flex flex-col items-start'}
+                            initial={{x: -30, opacity: 0}}
+                            whileInView={{x: 0, opacity: 1}}
+                            viewport={{once: true}}
+                            transition={{ease: 'easeInOut', duration: 0.7}}>
                     <p className={'font-medium font-raleway text-3xl'}>{currentTrainer.name} {currentTrainer.surname} {currentTrainer.nativity}</p>
                     <p className={'font-raleway'}>{currentTrainer.description}</p>
-                </div>
-                <div className={'col-span-6 flex items-center justify-center'}>
+                </motion.div>
+                <motion.div className={'col-span-6 flex items-center justify-center'}
+                            initial={{scale: 0.7, opacity: 0}}
+                            whileInView={{scale: 1, opacity: 1}}
+                            viewport={{once: true}}
+                            transition={{ease: 'easeInOut', duration: 0.7}}>
                     <img src={currentTrainer.photo}/>
-                </div>
+                </motion.div>
                 <div className={'col-span-3 flex flex-col items-end'}>
                     {trainers.map((trainer) => {
                         return (
